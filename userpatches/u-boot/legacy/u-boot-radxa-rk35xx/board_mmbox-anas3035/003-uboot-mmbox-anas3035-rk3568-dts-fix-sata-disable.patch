@@ -1,0 +1,60 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: John Doe <john.doe@somewhere.on.planet>
+Date: Mon, 21 Jul 2025 11:39:20 +0800
+Subject: Patching u-boot rk35xx files arch/arm/dts/rk3568-mmbox-anas3035.dts
+
+Signed-off-by: R-mt <wxzmz@163.com>
+---
+ arch/arm/dts/rk3568-mmbox-anas3035.dts | 23 ----------
+ 1 file changed, 23 deletions(-)
+
+diff --git a/arch/arm/dts/rk3568-mmbox-anas3035.dts b/arch/arm/dts/rk3568-mmbox-anas3035.dts
+index 3677f685406..673c74167c1 100644
+--- a/arch/arm/dts/rk3568-mmbox-anas3035.dts
++++ b/arch/arm/dts/rk3568-mmbox-anas3035.dts
+@@ -38,25 +38,10 @@
+ 		regulator-min-microvolt = <3300000>;
+ 		regulator-max-microvolt = <3300000>;
+ 		vin-supply = <&vcc5v0_sys>;
+ 	};
+ 
+-	vcc5v0_sata: regulator-vcc5v0-sata {
+-		u-boot,dm-pre-reloc;
+-		compatible = "regulator-fixed";
+-		enable-active-high;
+-		gpio = <&gpio0 RK_PC2 GPIO_ACTIVE_HIGH>;
+-		regulator-boot-on;
+-		regulator-always-on;
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&sata_pwr_en>;
+-		regulator-name = "vcc5v0_sata";
+-		regulator-min-microvolt = <5000000>;
+-		regulator-max-microvolt = <5000000>;
+-		vin-supply = <&dc_12v>;
+-	};
+-
+ 	vcc5v0_sys: vcc5v0-sys {
+ 		u-boot,dm-pre-reloc;
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "vcc5v0_sys";
+ 		regulator-always-on;
+@@ -453,16 +438,8 @@
+ 		soc_slppin_rst: soc_slppin_rst {
+ 			u-boot,dm-pre-reloc;
+ 			rockchip,pins =
+ 				<0 RK_PA2 RK_FUNC_2 &pcfg_pull_none>;
+ 		};
+-	};	
+-	
+-	sata {
+-		u-boot,dm-pre-reloc;
+-		sata_pwr_en: sata-pwr-en {
+-			u-boot,dm-pre-reloc;
+-			rockchip,pins = <0 RK_PC2 RK_FUNC_GPIO &pcfg_pull_down>;
+-		};
+ 	};
+ 
+ };
+-- 
+Created with Armbian build tools https://github.com/armbian/build
+
