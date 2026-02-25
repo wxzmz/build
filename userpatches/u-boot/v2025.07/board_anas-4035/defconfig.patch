@@ -1,18 +1,5 @@
-From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: John Doe <john.doe@somewhere.on.planet>
-Date: Sat, 17 Jan 2026 20:50:57 +0800
-Subject: Patching u-boot rockchip64 files configs/anas-4035-rk3588s_defconfig
-
-Signed-off-by: R-mt <wxzmz@163.com>
----
- configs/anas-4035-rk3588s_defconfig | 89 ++++++++++
- 1 file changed, 89 insertions(+)
-
-diff --git a/configs/anas-4035-rk3588s_defconfig b/configs/anas-4035-rk3588s_defconfig
-new file mode 100644
-index 00000000000..67bd2e544f4
 --- /dev/null
-+++ b/configs/anas-4035-rk3588s_defconfig
++++ b/configs/anas-4035-rk3588s_defconfig	2026-01-15 05:02:17.851350268 +0000
 @@ -0,0 +1,89 @@
 +CONFIG_ARM=y
 +CONFIG_SKIP_LOWLEVEL_INIT=y
@@ -103,6 +90,4 @@ index 00000000000..67bd2e544f4
 +CONFIG_SYS_HAS_NONCACHED_MEMORY=y
 +CONFIG_CMD_PWM=y
 +CONFIG_CMD_ROCKUSB=y
--- 
-Created with Armbian build tools https://github.com/armbian/build
-
++

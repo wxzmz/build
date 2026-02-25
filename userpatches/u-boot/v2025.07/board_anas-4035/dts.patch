@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/dts/upstream/src/arm64/rockchip/rk3588s-anas-4035.dts
-@@ -0,0 +1,702 @@
+@@ -0,0 +1,693 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +
 +/dts-v1/;
@@ -13,11 +13,11 @@
 +
 +/ {
 +	model = "ANAS 4035";
-+	compatible = "ANAS-4035", "rockchip,rk3588s";
++	compatible = "rockchip,rk3588s-anas-4035", "rockchip,rk3588s";
 +
 +	aliases {
-+		mmc0 = &sdmmc;
-+		mmc1 = &sdhci;
++		mmc0 = &sdhci;
++		mmc1 = &sdmmc;
 +	};
 +
 +	chosen {
@@ -126,15 +126,6 @@
 +		vin-supply = <&vcc_3v3_s3>;
 +	};
 +
-+        vcc_3v3_pcie20: regulator-vcc3v3-pcie20 {
-+                compatible = "regulator-fixed";
-+                regulator-name = "vcc_3v3_pcie20";
-+                regulator-always-on;
-+                regulator-boot-on;
-+                regulator-min-microvolt = <3300000>;
-+                regulator-max-microvolt = <3300000>;
-+                vin-supply = <&vcc_3v3_s3>;
-+        };
 +
 +	vcc5v0_usb: vcc5v0-usb-regulator {
 +		compatible = "regulator-fixed";

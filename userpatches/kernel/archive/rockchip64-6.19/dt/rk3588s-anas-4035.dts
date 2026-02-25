@@ -10,14 +10,15 @@
 #include <dt-bindings/soc/rockchip,vop2.h>
 #include "rk3588s.dtsi"
 
+
 / {
 	model = "ANAS 4035";
-	compatible = "ANAS-4035", "rockchip,rk3588s";
+	compatible = "rockchip,rk3588s-anas-4035", "rockchip,rk3588s";
 
 
 	aliases {
-		mmc0 = &sdmmc;
-		mmc1 = &sdhci;
+		mmc0 = &sdhci;
+		mmc1 = &sdmmc;
 	};
 
 	chosen {
@@ -153,6 +154,7 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vcc12v_dcin>;
 	};
 
         vcc5v0_fan: regulator-vcc5v0-fan {
@@ -173,12 +175,13 @@
 		gpio = <&gpio1 RK_PA6 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&sata_pwr_en>;
-		regulator-always-on;
-                regulator-boot-on;
+	//	regulator-always-on;
+        //      regulator-boot-on;
 		regulator-name = "vcc5v0_sata_pwr";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
-		vin-supply = <&vcc5v0_sys>;
+		startup-delay-us = <200000>;
+		vin-supply = <&vcc_3v3_s3>;
 	};
 
         vcc5v0_asm1061_pwr: regulator-vcc5v0-asm1061 {
@@ -208,15 +211,6 @@
 		vin-supply = <&vcc5v0_sys>;
 	};
 
-	vcc_3v3_s0: vcc-3v3-s0-regulator {
-		compatible = "regulator-fixed";
-		regulator-always-on;
-		regulator-boot-on;
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		regulator-name = "vcc_3v3_s0";
-		vin-supply = <&vcc_3v3_s3>;
-	};
 
 	vcc_3v3_sd_s0: vcc-3v3-sd-s0-regulator {
 		compatible = "regulator-fixed";
@@ -228,16 +222,6 @@
 		vin-supply = <&vcc_3v3_s3>;
 	};
 
-	vcc_3v3_pcie20: vcc3v3-pcie20-regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "vcc_3v3_pcie20";
-		regulator-always-on;
-		regulator-boot-on;
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		vin-supply = <&vcc_3v3_s3>;
-		startup-delay-us = <200000>;
-	};
 
 	vcc5v0_usb: vcc5v0-usb-regulator {
 		compatible = "regulator-fixed";
@@ -339,10 +323,15 @@
 	status = "okay";
 };
 
+
+
 &gpu {
-	mali-supply = <&vdd_gpu_s0>;
-	status = "okay";
+        mali-supply = <&vdd_gpu_s0>;
+        status = "okay";
 };
+
+
+
 
 &hdmi0 {
         status = "okay";
@@ -514,19 +503,19 @@
 		};
 		
 		sata0_error_led_pin: sata0-error-led-pin {
-            		rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
+            		rockchip,pins = <1 RK_PA4 RK_FUNC_GPIO &pcfg_pull_down>;
         	};
 
         	sata1_error_led_pin: sata1-error-led-pin {
-            		rockchip,pins = <1 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>;
+            		rockchip,pins = <1 RK_PB0 RK_FUNC_GPIO &pcfg_pull_down>;
         	};
 
         	sata2_error_led_pin: sata2-error-led-pin {
-            		rockchip,pins = <1 RK_PB6 RK_FUNC_GPIO &pcfg_pull_none>;
+            		rockchip,pins = <1 RK_PB6 RK_FUNC_GPIO &pcfg_pull_down>;
         	};
 
         	sata3_error_led_pin: sata3-error-led-pin {
-            		rockchip,pins = <1 RK_PD7 RK_FUNC_GPIO &pcfg_pull_none>;
+            		rockchip,pins = <1 RK_PD7 RK_FUNC_GPIO &pcfg_pull_down>;
         	};
 
 	};
@@ -570,6 +559,9 @@
                         rockchip,pins = <1 RK_PA7 RK_FUNC_GPIO &pcfg_pull_down>;
                 };
         };
+
+
+
 
 };
 
@@ -631,22 +623,21 @@
         no-sd;
         non-removable;
         max-frequency = <200000000>;
-        mmc-hs400-1_8v;
-        //mmc-hs400-enhanced-strobe;
+	mmc-hs400-1_8v;
         status = "okay";
-        vmmc-supply = <&vcc_3v3_s3>;
+	vmmc-supply = <&vcc_3v3_s3>;
 };
 
 &sdmmc {
         bus-width = <4>;
-        cap-mmc-highspeed;
+	cap-mmc-highspeed;
         cap-sd-highspeed;
         disable-wp;
         max-frequency = <150000000>;
         no-mmc;
         no-sdio;
-        vmmc-supply = <&vcc_3v3_s3>;
-        status = "okay";
+	vmmc-supply = <&vcc_3v3_s3>;
+	status = "okay";
 };
 
 
@@ -976,7 +967,6 @@
         };
 };
 
-
 &package_thermal {
         polling-delay = <1000>;
 
@@ -1045,13 +1035,13 @@
 
 &pcie2x1l1 {
         reset-gpios = <&gpio3 RK_PD1 GPIO_ACTIVE_HIGH>;
-        vpcie3v3-supply = <&vcc_3v3_pcie20>;
+        vpcie3v3-supply = <&vcc5v0_sata_pwr>;
         status = "okay";
 };
 
 &pcie2x1l2 {
         reset-gpios = <&gpio4 RK_PA2 GPIO_ACTIVE_HIGH>;
-        vpcie3v3-supply = <&vcc_3v3_pcie20>;
+        vpcie3v3-supply = <&vcc5v0_sata_pwr>;
         status = "okay";
 };
 
@@ -1141,4 +1131,5 @@
 		remote-endpoint = <&hdmi0_in_vp0>;
 	};
 };
+
 
